@@ -1,4 +1,4 @@
-package com.global.task;
+package com.global.output;
 
 import java.util.Map;
 
@@ -7,6 +7,6 @@ import java.util.Map;
  * @auth snifferhu
  * @date 2016/12/30 23:37
  */
-public interface TaskDownHandler<I> {
-    void invoke(I input, Map context);
+public interface OutputHandler<I> {
+    void exec(I input, Map context);
 }

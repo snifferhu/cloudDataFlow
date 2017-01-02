@@ -21,7 +21,7 @@ public abstract class AbstractSingleTask implements Task {
     @Override
     public <T> void invoke(InputHandler<T> input, Map context) {
         T t = Optional.ofNullable(codec)
-                .orElseGet(() -> new DefaultCodec())
+                .orElseGet(DefaultCodec::new)
                 .explain(input);
         doTask(t,context);
     }

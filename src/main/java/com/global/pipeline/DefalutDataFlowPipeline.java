@@ -10,10 +10,11 @@ import java.util.*;
 import java.util.function.Supplier;
 
 import static java.lang.String.format;
-import static com.global.common.ValiDateTools.NotNull;
+import static com.global.common.ValidateTools.NotNull;
 
 /**
  * todo 1.解耦初始化过程，通过工厂模式简化
+ *
  * @auth snifferhu
  * @date 2016/12/30 22:45
  */
@@ -37,10 +38,15 @@ public abstract class DefalutDataFlowPipeline implements DataFlowPipeline {
                     logger.error(ERROR_MSG, tList);
                     return new IllegalArgumentException(format(ERROR_MSG, tList));
                 }).parallelStream().forEach(x -> x.invoke(input, context));
-        taskDownHandler.exec(input,context);
+        taskDownHandler.exec(input, context);
     }
 
     public void addTasK(Task t) {
+        synchronized (tList) {
+            if (null == tList) {
+                tList = new ArrayList<>();
+            }
+        }
         tList.add(t);
     }
 

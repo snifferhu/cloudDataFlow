@@ -2,13 +2,12 @@ package com.global.task;
 
 import com.global.codec.Codec;
 import com.global.codec.DefaultCodec;
-import com.global.input.InputHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 /**
  * todo 完成抽象模板定义
@@ -19,16 +18,17 @@ public abstract class AbstractSingleTask implements Task {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     protected Codec codec;
     @Override
-    public <T> void invoke(InputHandler<T> input, Map context) {
-        T t = Optional.ofNullable(codec)
+    public void invoke(Map<String,Object> input, Map<String,Object> context) {
+        Map<String,Object> result = Optional.ofNullable(codec)
                 .orElseGet(DefaultCodec::new)
                 .explain(input);
-        doTask(t,context);
+        doTask(result,context);
     }
 
-    protected abstract <T> void doTask(T t, Map context);
+    protected abstract void doTask(Map<String,Object> explain, Map context);
 
-    public void setCodec(Codec codec) {
+
+    protected void setCodec(Codec codec) {
         this.codec = codec;
     }
 }

@@ -1,6 +1,8 @@
 package com.global.codec;
 
-import com.global.input.InputHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 默认解析工具类
@@ -8,8 +10,9 @@ import com.global.input.InputHandler;
  * Created by Sniff on 2016/12/31.
  */
 public class DefaultCodec implements Codec {
+
     @Override
-    public <T> T explain(InputHandler<T> input) {
-        return input.inputValue();
+    public Map explain(Map<String,Object> input) {
+        return input;
     }
 }

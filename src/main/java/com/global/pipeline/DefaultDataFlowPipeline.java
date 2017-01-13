@@ -1,8 +1,7 @@
 package com.global.pipeline;
 
-import com.global.input.InputHandler;
 import com.global.task.Task;
-import com.global.output.OutputHandler;
+import com.global.output.TaskDownHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,18 +17,16 @@ import static com.global.common.ValidateTools.NotNull;
  * @auth snifferhu
  * @date 2016/12/30 22:45
  */
-public abstract class DefalutDataFlowPipeline implements DataFlowPipeline {
+public abstract class DefaultDataFlowPipeline implements DataFlowPipeline {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private static final String ERROR_MSG = "Task list is required,taskList={}";
+    private static final String ERROR_MSG = "Task list is required,taskList=%s";
+    protected List<Task> tList = new ArrayList<>();
+    protected TaskDownHandler taskDownHandler = null;
 
-    private List<Task> tList = null;
-
-    private OutputHandler<InputHandler> taskDownHandler = null;
-
-    public DefalutDataFlowPipeline() {
+    public DefaultDataFlowPipeline() {
     }
 
-    public void doTask(InputHandler input, Map context) {
+    public void doTask(Map input, Map context) {
         NotNull(input);
         NotNull(context);
         NotNull(taskDownHandler);
@@ -37,16 +34,11 @@ public abstract class DefalutDataFlowPipeline implements DataFlowPipeline {
                 .orElseThrow((Supplier<RuntimeException>) () -> {
                     logger.error(ERROR_MSG, tList);
                     return new IllegalArgumentException(format(ERROR_MSG, tList));
-                }).parallelStream().forEach(x -> x.invoke(input, context));
+                }).forEach(task -> task.invoke(input, context));
         taskDownHandler.exec(input, context);
     }
 
-    public void addTasK(Task t) {
-        synchronized (tList) {
-            if (null == tList) {
-                tList = new ArrayList<>();
-            }
-        }
+    public void addTask(Task t) {
         tList.add(t);
     }
 
@@ -66,7 +58,7 @@ public abstract class DefalutDataFlowPipeline implements DataFlowPipeline {
      *
      * @param taskList 处理任务队列
      */
-    public abstract void setTasktList(List<Task> taskList);
+    public abstract void setTaskList(List<Task> taskList);
 
 
     /**
@@ -74,5 +66,5 @@ public abstract class DefalutDataFlowPipeline implements DataFlowPipeline {
      *
      * @param td 任务处理结束句柄
      */
-    public abstract void setTaskDown(OutputHandler td);
+    public abstract void setTaskDown(TaskDownHandler td);
 }

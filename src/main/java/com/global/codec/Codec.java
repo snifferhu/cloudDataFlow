@@ -1,11 +1,12 @@
 package com.global.codec;
 
-import com.global.input.InputHandler;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 消息解析处理接口
  * Created by Sniff on 2016/12/31.
  */
 public interface Codec {
-    <T> T explain(InputHandler<T> input);
+    Map explain(Map<String,Object> input);
 }

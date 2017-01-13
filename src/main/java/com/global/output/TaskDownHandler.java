@@ -7,6 +7,6 @@ import java.util.Map;
  * @auth snifferhu
  * @date 2016/12/30 23:37
  */
-public interface OutputHandler<I> {
-    void exec(I input, Map context);
+public interface TaskDownHandler {
+    void exec(Map input, Map context);
 }

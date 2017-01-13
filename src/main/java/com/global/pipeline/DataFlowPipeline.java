@@ -1,6 +1,5 @@
 package com.global.pipeline;
 
-import com.global.input.InputHandler;
 import com.global.task.Task;
 
 import java.util.List;
@@ -12,11 +11,11 @@ import java.util.Map;
  */
 public interface DataFlowPipeline {
 
-    void doTask(InputHandler input, Map context);
+    void doTask(Map input, Map context);
 
-    void addTasK(Task t);
+    void addTask(Task t);
 
-    void setTasKList(List<Task> taskList);
+    void setTaskList(List<Task> taskList);
 
     List<Task> getTaskList();
 }

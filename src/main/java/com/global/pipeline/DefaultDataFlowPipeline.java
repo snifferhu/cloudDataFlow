@@ -28,7 +28,6 @@ public abstract class DefaultDataFlowPipeline implements DataFlowPipeline {
 
     public void doTask(Map input, Map context) {
         NotNull(input);
-        NotNull(context);
         NotNull(taskDownHandler);
         Optional.ofNullable(tList)
                 .orElseThrow((Supplier<RuntimeException>) () -> {
